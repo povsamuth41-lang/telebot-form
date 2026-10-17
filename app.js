@@ -14,7 +14,8 @@ const STATUSES = [
   "❌ ខូច / ប្រើមិនបាន",
   "⏳ កំពុងរង់ចាំការផ្លាស់ប្តូរ",
 ];
-const PRIORITIES = ["🟢 ធម្មតា", "🟡 មធ្យម", "🔴 បន្ទាន់"];
+const OTHER_INDEX = TYPES.length - 1; // "Others" នៅចុងបញ្ចប់ជានិច្ច
+const PRIORITIES =["🟢 ធម្មតា", "🟡 មធ្យម", "🔴 បន្ទាន់"];
 
 const tg = window.Telegram && window.Telegram.WebApp;
 const inTelegram = !!(tg && tg.initData);
@@ -47,6 +48,7 @@ function selected(name) {
 function collect() {
   return {
     t: selected("type"),
+    o: $("other").value.trim(),
     s: selected("status"),
     x: $("detail").value.trim(),
     p: selected("priority"),
@@ -56,6 +58,7 @@ function collect() {
 function validate(data) {
   const missing = {
     type: data.t === null,
+    other: data.t === OTHER_INDEX && !data.o,
     status: data.s === null,
     priority: data.p === null,
   };
@@ -94,6 +97,14 @@ function submit() {
 renderOptions("type", TYPES);
 renderOptions("status", STATUSES);
 renderOptions("priority", PRIORITIES);
+
+// បង្ហាញប្រអប់បញ្ជាក់ ពេលជ្រើស Others
+form.addEventListener("change", (e) => {
+  if (e.target.name !== "type") return;
+  const isOther = Number(e.target.value) === OTHER_INDEX;
+  $("otherField").hidden = !isOther;
+  if (isOther) $("other").focus();
+});
 
 // លុបសញ្ញាកំហុសពេលអ្នកប្រើកែតម្រូវ
 form.addEventListener("input", (e) => {
