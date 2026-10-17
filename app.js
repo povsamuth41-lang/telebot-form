@@ -25,13 +25,13 @@ const MAX_BYTES = 4000; // Telegram sendData អនុញ្ញាតអតិ�
 const $ = (id) => document.getElementById(id);
 const form = $("form");
 
-function renderOptions(containerId, items) {
+function renderOptions(containerId, items, multi = false) {
   const box = $(containerId);
   items.forEach((label, i) => {
     const wrap = document.createElement("label");
     wrap.className = "opt";
     const input = document.createElement("input");
-    input.type = "radio";
+    input.type = multi ? "checkbox" : "radio";
     input.name = containerId;
     input.value = String(i);
     const text = document.createElement("span");
@@ -46,9 +46,13 @@ function selected(name) {
   return el ? Number(el.value) : null;
 }
 
+function selectedAll(name) {
+  return [...form.querySelectorAll(`input[name="${name}"]:checked`)].map((el) => Number(el.value));
+}
+
 function collect() {
   return {
-    t: selected("type"),
+    t: selectedAll("type"),
     o: $("other").value.trim(),
     s: selected("status"),
     x: $("detail").value.trim(),
@@ -58,8 +62,8 @@ function collect() {
 
 function validate(data) {
   const missing = {
-    type: data.t === null,
-    other: data.t === OTHER_INDEX && !data.o,
+    type: data.t.length === 0,
+    other: data.t.includes(OTHER_INDEX) && !data.o,
     status: data.s === null,
     priority: data.p === null,
   };
@@ -95,16 +99,16 @@ function submit() {
   }
 }
 
-renderOptions("type", TYPES);
+renderOptions("type", TYPES, true);
 renderOptions("status", STATUSES);
 renderOptions("priority", PRIORITIES);
 
 // បង្ហាញប្រអប់បញ្ជាក់ ពេលជ្រើស Others
 form.addEventListener("change", (e) => {
   if (e.target.name !== "type") return;
-  const isOther = Number(e.target.value) === OTHER_INDEX;
-  $("otherField").hidden = !isOther;
-  if (isOther) $("other").focus();
+  const otherOn = selectedAll("type").includes(OTHER_INDEX);
+  $("otherField").hidden = !otherOn;
+  if (otherOn && Number(e.target.value) === OTHER_INDEX) $("other").focus();
 });
 
 // លុបសញ្ញាកំហុសពេលអ្នកប្រើកែតម្រូវ
