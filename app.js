@@ -1,20 +1,18 @@
 // ជម្រើសទាំងនេះត្រូវតែដូចគ្នា (លំដាប់ដូចគ្នា) នឹង DEVICE_TYPES / STATUSES / PRIORITIES ក្នុង bot.py
 // ព្រោះយើងបញ្ជូនតែលេខ index ទៅ bot ដើម្បីកុំឱ្យលើសកំណត់ 4096 bytes របស់ Telegram
 const TYPES = [
-  "🖥️ កុំព្យូទ័រតុ (Desktop)",
-  "💻 កុំព្យូទ័រយួរដៃ (Laptop)",
-  "🖨️ ម៉ាស៊ីនព្រីន (Printer)",
-  "🖵 ម៉ូនីទ័រ (Monitor)",
-  "🌐 បណ្តាញ (Router/Switch/WiFi)",
-  "🔋 ឧបករណ៍បម្រុងភ្លើង (UPS)",
-  "⌨️ ក្តារចុច/ម៉ៅស៍",
-  "📦 ផ្សេងៗ",
+  "💻 Computer-Laptop",
+  "📷 Camera-Logitech",
+  "📠 Portable-Scanner",
+  "👆 Finger-Print",
+  "🔋 Power-Bank",
+  "🔌 Type-C Hub",
+  "📦 Others (ផ្សេងៗ)",
 ];
 const STATUSES = [
-  "✅ ប្រើបានល្អ",
-  "⚠️ ប្រើបាន តែមានបញ្ហា",
+  "⚠️ ប្រើបានតែមានភាពរអាក់រអួល",
   "❌ ខូច / ប្រើមិនបាន",
-  "🔧 កំពុងជួសជុល",
+  "⏳ កំពុងរង់ចាំការផ្លាស់ប្តូរ",
 ];
 const PRIORITIES = ["🟢 ធម្មតា", "🟡 មធ្យម", "🔴 បន្ទាន់"];
 
@@ -48,9 +46,7 @@ function selected(name) {
 
 function collect() {
   return {
-    d: $("dept").value.trim(),
     t: selected("type"),
-    a: $("asset").value.trim(),
     s: selected("status"),
     x: $("detail").value.trim(),
     p: selected("priority"),
@@ -59,7 +55,6 @@ function collect() {
 
 function validate(data) {
   const missing = {
-    dept: !data.d,
     type: data.t === null,
     status: data.s === null,
     priority: data.p === null,
