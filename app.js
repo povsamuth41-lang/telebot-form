@@ -48,7 +48,6 @@ function selected(name) {
 
 function collect() {
   return {
-    n: $("name").value.trim(),
     d: $("dept").value.trim(),
     t: selected("type"),
     a: $("asset").value.trim(),
@@ -60,7 +59,6 @@ function collect() {
 
 function validate(data) {
   const missing = {
-    name: !data.n,
     dept: !data.d,
     type: data.t === null,
     status: data.s === null,
@@ -119,7 +117,11 @@ if (inTelegram) {
   tg.ready();
   tg.expand();
   const u = tg.initDataUnsafe && tg.initDataUnsafe.user;
-  if (u) $("name").value = [u.first_name, u.last_name].filter(Boolean).join(" ");
+  // ឈ្មោះពិតប្រាកដយកដោយ bot ពី Telegram; ត្រង់នេះគ្រាន់តែបង្ហាញឱ្យអ្នកប្រើឃើញ
+  if (u) {
+    $("reporterName").textContent = [u.first_name, u.last_name].filter(Boolean).join(" ");
+    $("reporter").hidden = false;
+  }
   tg.MainButton.setText("បញ្ជូនរបាយការណ៍");
   tg.MainButton.onClick(submit);
   tg.MainButton.show();
