@@ -18,7 +18,8 @@ const OTHER_INDEX = TYPES.length - 1; // "Others" នៅចុងបញ្ចប
 const PRIORITIES =["🟢 ធម្មតា", "🟡 មធ្យម", "🔴 បន្ទាន់"];
 
 const tg = window.Telegram && window.Telegram.WebApp;
-const inTelegram = !!(tg && tg.initData);
+// initData ទទេ ពេលបើកពីប៊ូតុង keyboard (ដែលចាំបាច់សម្រាប់ sendData) ដូច្នេះប្រើ platform ជំនួស
+const inTelegram = !!(tg && tg.platform && tg.platform !== "unknown");
 const MAX_BYTES = 4000; // Telegram sendData អនុញ្ញាតអតិបរមា 4096 bytes
 
 const $ = (id) => document.getElementById(id);
@@ -124,10 +125,11 @@ if (inTelegram) {
   tg.expand();
   const u = tg.initDataUnsafe && tg.initDataUnsafe.user;
   // ឈ្មោះពិតប្រាកដយកដោយ bot ពី Telegram; ត្រង់នេះគ្រាន់តែបង្ហាញឱ្យអ្នកប្រើឃើញ
-  if (u) {
-    $("reporterName").textContent = [u.first_name, u.last_name].filter(Boolean).join(" ");
-    $("reporter").hidden = false;
-  }
+  // (ពេលបើកពីប៊ូតុង keyboard Telegram មិនផ្តល់ user ដល់ form ទេ)
+  $("reporterName").textContent = u
+    ? [u.first_name, u.last_name].filter(Boolean).join(" ")
+    : "យកពីគណនី Telegram របស់អ្នកដោយស្វ័យប្រវត្តិ";
+  $("reporter").hidden = false;
   tg.MainButton.setText("បញ្ជូនរបាយការណ៍");
   tg.MainButton.onClick(submit);
   tg.MainButton.show();
