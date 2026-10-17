@@ -16,7 +16,8 @@ const STATUSES = [
 ];
 const OTHER_INDEX = TYPES.length - 1; // "Others" នៅចុងបញ្ចប់ជានិច្ច
 const PRIORITIES = ["🟢 ធម្មតា", "🟡 មធ្យម", "🔴 បន្ទាន់"];
-const STATES = ["✅ គ្មានបញ្ហាសម្ភារៈ", "⚠️ មានបញ្ហាសម្ភារៈ"]; // 0 = គ្មានបញ្ហា, 1 = មានបញ្ហា
+const WEATHERS = ["☀️ ក្តៅ / ភ្លឺ", "⛅ ពពក", "🌧️ ភ្លៀង", "⛈️ ផ្គររន្ទះ"];
+const STATES =["✅ គ្មានបញ្ហាសម្ភារៈ", "⚠️ មានបញ្ហាសម្ភារៈ"]; // 0 = គ្មានបញ្ហា, 1 = មានបញ្ហា
 
 const tg = window.Telegram && window.Telegram.WebApp;
 // initData ទទេ ពេលបើកពីប៊ូតុង keyboard (ដែលចាំបាច់សម្រាប់ sendData) ដូច្នេះប្រើ platform ជំនួស
@@ -53,9 +54,11 @@ function selectedAll(name) {
 
 function collect() {
   const state = selected("state");
-  if (state === 0) return { ok: true }; // គ្មានបញ្ហា: មិនបញ្ជូនអ្វីផ្សេងទៀត
+  const w = selected("weather"); // null បើមិនបានជ្រើស
+  if (state === 0) return { ok: true, w }; // គ្មានបញ្ហា: មិនបញ្ជូនអ្វីផ្សេងទៀត
   return {
     ok: state === 1 ? false : null,
+    w,
     t: selectedAll("type"),
     o: $("other").value.trim(),
     s: selected("status"),
@@ -116,6 +119,7 @@ function todayKh() {
 }
 $("today").textContent = todayKh();
 
+renderOptions("weather", WEATHERS);
 renderOptions("state", STATES);
 renderOptions("type", TYPES, true);
 renderOptions("status", STATUSES);
