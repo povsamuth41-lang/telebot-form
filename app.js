@@ -157,13 +157,7 @@ form.addEventListener("submit", (e) => {
 if (inTelegram) {
   tg.ready();
   tg.expand();
-  const u = tg.initDataUnsafe && tg.initDataUnsafe.user;
-  // ឈ្មោះពិតប្រាកដយកដោយ bot ពី Telegram; ត្រង់នេះគ្រាន់តែបង្ហាញឱ្យអ្នកប្រើឃើញ
-  // (ពេលបើកពីប៊ូតុង keyboard Telegram មិនផ្តល់ user ដល់ form ទេ)
-  $("reporterName").textContent = u
-    ? [u.first_name, u.last_name].filter(Boolean).join(" ")
-    : "យកពីគណនី Telegram របស់អ្នកដោយស្វ័យប្រវត្តិ";
-  $("reporter").hidden = false;
+  // ឈ្មោះអ្នករាយការណ៍ មិនបង្ហាញក្នុង form ទេ ព្រោះ bot យកពីគណនី Telegram ដោយខ្លួនឯង
   tg.MainButton.setText("បញ្ជូនរបាយការណ៍");
   tg.MainButton.onClick(submit);  tg.MainButton.show();
 } else {

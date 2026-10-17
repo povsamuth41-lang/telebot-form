@@ -103,8 +103,7 @@ textarea { resize: vertical; min-height: 96px; }
   cursor: pointer;
 }
 
-.reporter { margin: 0 0 12px; padding: 12px 16px; border-radius: 12px; background: var(--card, rgba(127,127,127,.12)); font-size: .95rem; }
-.reporter[hidden], .field[hidden] { display: none; }
+.field[hidden] { display: none; }
 .note { text-align: center; color: var(--hint); font-size: .85rem; }
 
 @media (max-width: 360px) {
