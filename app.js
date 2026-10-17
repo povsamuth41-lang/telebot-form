@@ -15,7 +15,8 @@ const STATUSES = [
   "⏳ កំពុងរង់ចាំការផ្លាស់ប្តូរ",
 ];
 const OTHER_INDEX = TYPES.length - 1; // "Others" នៅចុងបញ្ចប់ជានិច្ច
-const PRIORITIES =["🟢 ធម្មតា", "🟡 មធ្យម", "🔴 បន្ទាន់"];
+const PRIORITIES = ["🟢 ធម្មតា", "🟡 មធ្យម", "🔴 បន្ទាន់"];
+const STATES = ["✅ គ្មានបញ្ហាសម្ភារៈ", "⚠️ មានបញ្ហាសម្ភារៈ"]; // 0 = គ្មានបញ្ហា, 1 = មានបញ្ហា
 
 const tg = window.Telegram && window.Telegram.WebApp;
 // initData ទទេ ពេលបើកពីប៊ូតុង keyboard (ដែលចាំបាច់សម្រាប់ sendData) ដូច្នេះប្រើ platform ជំនួស
@@ -51,7 +52,10 @@ function selectedAll(name) {
 }
 
 function collect() {
+  const state = selected("state");
+  if (state === 0) return { ok: true }; // គ្មានបញ្ហា: មិនបញ្ជូនអ្វីផ្សេងទៀត
   return {
+    ok: state === 1 ? false : null,
     t: selectedAll("type"),
     o: $("other").value.trim(),
     s: selected("status"),
@@ -61,11 +65,13 @@ function collect() {
 }
 
 function validate(data) {
+  const issue = data.ok === false;
   const missing = {
-    type: data.t.length === 0,
-    other: data.t.includes(OTHER_INDEX) && !data.o,
-    status: data.s === null,
-    priority: data.p === null,
+    state: data.ok === null,
+    type: issue && data.t.length === 0,
+    other: issue && data.t.includes(OTHER_INDEX) && !data.o,
+    status: issue && data.s === null,
+    priority: issue && data.p === null,
   };
   let first = null;
   document.querySelectorAll(".field").forEach((f) => {
@@ -99,12 +105,21 @@ function submit() {
   }
 }
 
+renderOptions("state", STATES);
 renderOptions("type", TYPES, true);
 renderOptions("status", STATUSES);
 renderOptions("priority", PRIORITIES);
 
 // បង្ហាញប្រអប់បញ្ជាក់ ពេលជ្រើស Others
 form.addEventListener("change", (e) => {
+  if (e.target.name === "state") {
+    const issue = Number(e.target.value) === 1;
+    $("issueFields").hidden = !issue;
+    const label = issue ? "បញ្ជូនរបាយការណ៍" : "✅ បញ្ជូន: គ្មានបញ្ហា";
+    if (inTelegram) tg.MainButton.setText(label);
+    $("fallbackSubmit").textContent = label;
+    return;
+  }
   if (e.target.name !== "type") return;
   const otherOn = selectedAll("type").includes(OTHER_INDEX);
   $("otherField").hidden = !otherOn;
@@ -135,8 +150,7 @@ if (inTelegram) {
     : "យកពីគណនី Telegram របស់អ្នកដោយស្វ័យប្រវត្តិ";
   $("reporter").hidden = false;
   tg.MainButton.setText("បញ្ជូនរបាយការណ៍");
-  tg.MainButton.onClick(submit);
-  tg.MainButton.show();
+  tg.MainButton.onClick(submit);  tg.MainButton.show();
 } else {
   $("fallbackSubmit").hidden = false;
 }

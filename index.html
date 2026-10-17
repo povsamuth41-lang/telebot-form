@@ -3,20 +3,27 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>រាយការណ៍សម្ភារៈកុំព្យូទ័រ</title>
+  <title>រាយការណ៍សម្ភារៈប្រចាំថ្ងៃ</title>
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
-  <link rel="stylesheet" href="style.css?v=5">
+  <link rel="stylesheet" href="style.css?v=6">
 </head>
 <body>
   <main>
     <header>
-      <h1>📋 រាយការណ៍ស្ថានភាពសម្ភារៈ</h1>
-      <p>បំពេញព័ត៌មានខាងក្រោម រួចចុចបញ្ជូន</p>
+      <h1>📋 រាយការណ៍ស្ថានភាពសម្ភារៈប្រចាំថ្ងៃ</h1>
+      <p>ជ្រើសរើសស្ថានភាពថ្ងៃនេះ រួចចុចបញ្ជូន</p>
     </header>
 
     <form id="form" novalidate>
       <p class="reporter" id="reporter" hidden>👤 អ្នករាយការណ៍៖ <b id="reporterName"></b></p>
 
+      <section class="field" data-field="state">
+        <span class="label">ស្ថានភាពសម្ភារៈថ្ងៃនេះ <b>*</b></span>
+        <div id="state" class="grid one" role="radiogroup"></div>
+        <small class="err">សូមជ្រើសរើសមួយ</small>
+      </section>
+
+      <div id="issueFields" hidden>
       <section class="field" data-field="type">
         <span class="label">ប្រភេទសម្ភារៈ <b>*</b> <em>(ជ្រើសបានច្រើន)</em></span>
         <div id="type" class="grid two" role="group"></div>
@@ -46,13 +53,15 @@
         <div id="priority" class="grid three" role="radiogroup"></div>
         <small class="err">សូមជ្រើសរើសកម្រិតភាពបន្ទាន់</small>
       </section>
+      </div>
+
 
       <!-- ប៊ូតុងនេះបង្ហាញតែពេលបើកក្រៅ Telegram (សាកល្បង) -->
       <button type="submit" id="fallbackSubmit" class="primary" hidden>បញ្ជូនរបាយការណ៍</button>
     </form>
 
-    <p class="note">បន្ទាប់ពីបញ្ជូន Bot នឹងសួរអ្នកអំពីរូបថត (បើមាន) ។</p>
+    <p class="note">បើមានបញ្ហា បន្ទាប់ពីបញ្ជូន Bot នឹងសួរអ្នកអំពីរូបថត (បើមាន) ។</p>
   </main>
-  <script src="app.js?v=5"></script>
+  <script src="app.js?v=6"></script>
 </body>
 </html>
