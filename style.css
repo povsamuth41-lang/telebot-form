@@ -110,3 +110,5 @@ textarea { resize: vertical; min-height: 96px; }
 @media (max-width: 360px) {
   .grid.two, .grid.three { grid-template-columns: 1fr; }
 }
+
+.today { margin: 4px 0; font-size: 1rem; }

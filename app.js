@@ -105,6 +105,17 @@ function submit() {
   }
 }
 
+// កាលបរិច្ឆេទថ្ងៃនេះ (ម៉ោងកម្ពុជា UTC+7 ទោះទូរស័ព្ទកំណត់ម៉ោងផ្សេង)
+function todayKh() {
+  const days = ["អាទិត្យ", "ច័ន្ទ", "អង្គារ", "ពុធ", "ព្រហស្បតិ៍", "សុក្រ", "សៅរ៍"];
+  const months = ["មករា", "កុម្ភៈ", "មីនា", "មេសា", "ឧសភា", "មិថុនា",
+                  "កក្កដា", "សីហា", "កញ្ញា", "តុលា", "វិច្ឆិកា", "ធ្នូ"];
+  const kh = (n) => String(n).replace(/\d/g, (d) => "០១២៣៤៥៦៧៨៩"[d]);
+  const d = new Date(Date.now() + (7 * 60 + new Date().getTimezoneOffset()) * 60000);
+  return `ថ្ងៃ${days[d.getDay()]} ទី${kh(d.getDate())} ខែ${months[d.getMonth()]} ឆ្នាំ${kh(d.getFullYear())}`;
+}
+$("today").textContent = todayKh();
+
 renderOptions("state", STATES);
 renderOptions("type", TYPES, true);
 renderOptions("status", STATUSES);
