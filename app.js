@@ -54,7 +54,7 @@ function selectedAll(name) {
 
 function collect() {
   const state = selected("state");
-  const w = selected("weather"); // null បើមិនបានជ្រើស
+  const w = selected("weather"); // ចាំបាច់ត្រូវជ្រើស (validate() ពិនិត្យ)
   if (state === 0) return { ok: true, w }; // គ្មានបញ្ហា: មិនបញ្ជូនអ្វីផ្សេងទៀត
   return {
     ok: state === 1 ? false : null,
@@ -70,6 +70,7 @@ function collect() {
 function validate(data) {
   const issue = data.ok === false;
   const missing = {
+    weather: data.w === null,
     state: data.ok === null,
     type: issue && data.t.length === 0,
     other: issue && data.t.includes(OTHER_INDEX) && !data.o,
@@ -124,18 +125,6 @@ renderOptions("state", STATES);
 renderOptions("type", TYPES, true);
 renderOptions("status", STATUSES);
 renderOptions("priority", PRIORITIES);
-
-// អាកាសធាតុជាជម្រើសមិនចាំបាច់: ចុចលើអ្វីដែលបានជ្រើសម្តងទៀត ដើម្បីដកចេញ (radio ធម្មតាដកចេញមិនបាន)
-let lastWeather = null;
-$("weather").addEventListener("click", (e) => {
-  if (e.target.name !== "weather") return;
-  if (e.target.value === lastWeather) {
-    e.target.checked = false;
-    lastWeather = null;
-  } else {
-    lastWeather = e.target.value;
-  }
-});
 
 // បង្ហាញប្រអប់បញ្ជាក់ ពេលជ្រើស Others
 form.addEventListener("change", (e) => {
