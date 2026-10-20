@@ -12,8 +12,8 @@ const TYPES = [
 const STATUSES = [
   "⚠️ ប្រើបានតែមានភាពរអាក់រអួល",
   "❌ ខូច / ប្រើមិនបាន",
-  "🔄 ស្នើសុំផ្លាស់ប្តូរថ្មី",
 ];
+const REQUEST_LABEL = "🔄 ស្នើសុំផ្លាស់ប្តូរថ្មី"; // «សំណើ» ជាប៊ូតុងជ្រើស/មិនជ្រើស (checkbox)
 const OTHER_INDEX = TYPES.length - 1; // "Others" នៅចុងបញ្ចប់ជានិច្ច
 const PRIORITIES = ["🟢 ធម្មតា", "🟡 មធ្យម", "🔴 បន្ទាន់"];
 const WEATHERS = ["☀️ ក្តៅ / ភ្លឺ", "⛅ ពពក", "🌧️ ភ្លៀង", "⛈️ ផ្គររន្ទះ"];
@@ -63,6 +63,7 @@ function collect() {
     o: $("other").value.trim(),
     s: selected("status"),
     x: $("detail").value.trim(),
+    q: selectedAll("request").length ? 1 : 0,
     p: selected("priority"),
   };
 }
@@ -124,6 +125,7 @@ renderOptions("weather", WEATHERS);
 renderOptions("state", STATES);
 renderOptions("type", TYPES, true);
 renderOptions("status", STATUSES);
+renderOptions("request", [REQUEST_LABEL], true);
 renderOptions("priority", PRIORITIES);
 
 // បង្ហាញប្រអប់បញ្ជាក់ ពេលជ្រើស Others

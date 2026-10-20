@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>រាយការណ៍សម្ភារៈប្រចាំថ្ងៃ</title>
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
-  <link rel="stylesheet" href="style.css?v=13">
+  <link rel="stylesheet" href="style.css?v=14">
 </head>
 <body>
   <main>
@@ -53,6 +53,11 @@
         <div class="count"><span id="count">0</span>/700</div>
       </section>
 
+      <section class="field" data-field="request">
+        <span class="label">សំណើ <em>(មិនបំពេញក៏បាន)</em></span>
+        <div id="request" class="grid one" role="group"></div>
+      </section>
+
       <section class="field" data-field="priority">
         <span class="label">ភាពបន្ទាន់ <b>*</b></span>
         <div id="priority" class="grid three" role="radiogroup"></div>
@@ -67,6 +72,6 @@
 
     <p class="note">បើមានបញ្ហា បន្ទាប់ពីបញ្ជូន Bot នឹងសួរអ្នកអំពីរូបថត (បើមាន) ។</p>
   </main>
-  <script src="app.js?v=13"></script>
+  <script src="app.js?v=14"></script>
 </body>
 </html>
