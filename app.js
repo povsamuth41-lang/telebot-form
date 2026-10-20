@@ -125,6 +125,18 @@ renderOptions("type", TYPES, true);
 renderOptions("status", STATUSES);
 renderOptions("priority", PRIORITIES);
 
+// អាកាសធាតុជាជម្រើសមិនចាំបាច់: ចុចលើអ្វីដែលបានជ្រើសម្តងទៀត ដើម្បីដកចេញ (radio ធម្មតាដកចេញមិនបាន)
+let lastWeather = null;
+$("weather").addEventListener("click", (e) => {
+  if (e.target.name !== "weather") return;
+  if (e.target.value === lastWeather) {
+    e.target.checked = false;
+    lastWeather = null;
+  } else {
+    lastWeather = e.target.value;
+  }
+});
+
 // បង្ហាញប្រអប់បញ្ជាក់ ពេលជ្រើស Others
 form.addEventListener("change", (e) => {
   if (e.target.name === "state") {
