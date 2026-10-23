@@ -1,4 +1,4 @@
-/* ============================================================
+﻿/* ============================================================
    រាយការណ៍សម្ភារៈប្រចាំថ្ងៃ — Telegram Mini App
    ពណ៌ផ្ទៃ/អក្សរ យកតាម theme របស់ Telegram (ភ្លឺ/ងងឹត) ចំណែកពណ៌ម៉ាក (brand) និងពណ៌ស្ថានភាពថេរ
    ============================================================ */
@@ -399,41 +399,96 @@ textarea { resize: vertical; min-height: 104px; }
 .primary[hidden] { display: none; }
 .note { margin: 14px 8px 0; text-align: center; color: var(--hint); font-size: .8rem; }
 
-/* ---------- Footer: ទំនាក់ទំនងបន្ទាន់ ---------- */
+/* ---------- Footer: ទំនាក់ទំនងបន្ទាន់ (កាតងងឹត ទំនើប) ---------- */
 .footer {
+  position: relative;
+  overflow: hidden;
+  margin-top: 20px;
+  padding: 18px;
+  color: #fff;
+  border-radius: 26px;
+  background:
+    radial-gradient(120% 90% at 100% 0%, rgba(122, 92, 255, .55), transparent 60%),
+    radial-gradient(90% 80% at 0% 100%, rgba(59, 108, 255, .45), transparent 65%),
+    linear-gradient(135deg, #0d1330 0%, #17235e 100%);
+  box-shadow: 0 14px 34px rgba(13, 19, 48, .35);
+  isolation: isolate;
+}
+.footer::before {            /* ចំណុចតុបតែងស្រាលៗ */
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  opacity: .5;
+  background-image: radial-gradient(rgba(255, 255, 255, .16) 1px, transparent 1.2px);
+  background-size: 16px 16px;
+  -webkit-mask-image: linear-gradient(135deg, #000, transparent 70%);
+  mask-image: linear-gradient(135deg, #000, transparent 70%);
+}
+.f-top { display: flex; align-items: center; gap: 14px; }
+.f-photo {
+  flex: none;
+  width: 68px;
+  height: 68px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 3px solid rgba(255, 255, 255, .92);
+  box-shadow: 0 0 0 4px rgba(255, 255, 255, .14), 0 8px 18px rgba(0, 0, 0, .4);
+  background: #243070;
+}
+.f-text { min-width: 0; }
+.f-text strong { display: block; margin-top: 6px; font-size: .92rem; font-weight: 600; line-height: 1.5; }
+.f-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 2px 12px 2px 10px;
+  font-size: .72rem;
+  font-weight: 600;
+  letter-spacing: .02em;
+  color: #ffd9de;
+  border-radius: 99px;
+  background: rgba(229, 56, 79, .22);
+  border: 1px solid rgba(255, 138, 153, .35);
+}
+.f-kicker i {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #ff5c72;
+  box-shadow: 0 0 0 0 rgba(255, 92, 114, .7);
+  animation: pulse 1.8s infinite;
+}
+.f-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 16px; }
+.f-call {
   display: flex;
   align-items: center;
-  gap: 12px;
-  margin-top: 18px;
-  padding: 14px;
-  background: var(--bg);
-  border: 1.5px dashed color-mix(in srgb, var(--bad) 40%, transparent);
-  border-radius: var(--radius);
-}
-.f-ico {
-  flex: none;
-  width: 42px;
-  height: 42px;
-  display: grid;
-  place-items: center;
-  font-size: 1.25rem;
-  border-radius: 14px;
-  background: color-mix(in srgb, var(--bad) 12%, transparent);
-}
-.f-body { min-width: 0; line-height: 1.45; }
-.f-body strong { display: block; font-size: .84rem; font-weight: 600; }
-.f-phones { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px; margin-top: 2px; }
-.f-phones i { font-style: normal; color: var(--hint); }
-.f-phones a {
-  color: var(--brand);
+  justify-content: center;
+  gap: 8px;
+  padding: 13px 8px;
+  font-size: .98rem;
   font-weight: 700;
-  font-size: 1rem;
-  text-decoration: none;
   letter-spacing: .02em;
+  text-decoration: none;
+  color: #fff;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, .12);
+  border: 1px solid rgba(255, 255, 255, .25);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  transition: transform .18s var(--ease), background .18s;
+  white-space: nowrap;
 }
-.f-phones a:active { opacity: .6; }
-
+.f-call.primary-call {
+  color: #14204f;
+  border-color: transparent;
+  background: linear-gradient(180deg, #ffffff, #dfe7ff);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, .28);
+}
+.f-call:active { transform: scale(.96); }
+@media (max-width: 340px) { .f-actions { grid-template-columns: 1fr; } }
 /* ---------- ចលនា ---------- */
+@keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(255, 92, 114, .7); } 70% { box-shadow: 0 0 0 8px rgba(255, 92, 114, 0); } 100% { box-shadow: 0 0 0 0 rgba(255, 92, 114, 0); } }
 @keyframes reveal { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: none; } }
 @keyframes shake {
   0%, 100% { transform: translateX(0); }
