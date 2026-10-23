@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Kantumruy+Pro:wght@400;500;600;700&display=swap">
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
-  <link rel="stylesheet" href="style.css?v=15">
+  <link rel="stylesheet" href="style.css?v=16">
 </head>
 <body>
   <main>
@@ -20,6 +20,16 @@
         <p class="today">📅 <span id="today"></span></p>
       </div>
     </header>
+
+    <!-- ប្រវត្តិផ្លាស់ប្តូរសម្ភារៈ (Admin ជាអ្នកកត់ត្រា; បង្ហាញតែពេលមានទិន្នន័យ) -->
+    <details class="history" id="history" hidden>
+      <summary>
+        <span class="h-ico" aria-hidden="true">🔄</span>
+        <span class="h-title">ប្រវត្តិផ្លាស់ប្តូរសម្ភារៈរបស់អ្នក</span>
+        <span class="h-count" id="historyCount"></span>
+      </summary>
+      <ul id="historyList"></ul>
+    </details>
 
     <form id="form" novalidate>
       <section class="field" data-field="weather">
@@ -77,6 +87,6 @@
 
     <p class="note">បើមានបញ្ហា បន្ទាប់ពីបញ្ជូន Bot នឹងសួរអ្នកអំពីរូបថត (បើមាន)</p>
   </main>
-  <script src="app.js?v=15"></script>
+  <script src="app.js?v=16"></script>
 </body>
 </html>

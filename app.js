@@ -137,6 +137,33 @@ function todayKh() {
 }
 $("today").textContent = todayKh();
 
+// ប្រវត្តិផ្លាស់ប្តូរសម្ភារៈ: Bot ដាក់ក្នុង URL (?h=<base64 JSON>) សម្រាប់អ្នកប្រើម្នាក់ៗ
+function renderHistory() {
+  let items = [];
+  try {
+    const raw = new URLSearchParams(location.search).get("h");
+    if (raw) {
+      const b64 = raw.replace(/-/g, "+").replace(/_/g, "/");
+      const bin = atob(b64 + "=".repeat((4 - (b64.length % 4)) % 4));
+      items = JSON.parse(new TextDecoder().decode(Uint8Array.from(bin, (c) => c.charCodeAt(0))));
+    }
+  } catch (_) { items = []; }
+  if (!Array.isArray(items) || !items.length) return;
+  const list = $("historyList");
+  items.slice(0, 8).forEach((it) => {
+    const li = el("li");
+    li.append(el("span", "h-date", String(it.d || "")));
+    const body = el("span", "h-body");
+    body.append(el("b", "", String(it.t || "")));
+    if (it.n) body.append(el("small", "", String(it.n)));
+    li.append(body);
+    list.append(li);
+  });
+  $("historyCount").textContent = String(items.length);
+  $("history").hidden = false;
+}
+renderHistory();
+
 renderOptions("weather", WEATHERS);
 renderOptions("state", STATES, false, ["ថ្ងៃនេះសម្ភារៈទាំងអស់ដំណើរការធម្មតា", "មានសម្ភារៈខូច ឬដំណើរការមិនល្អ"]);
 renderOptions("type", TYPES, true);

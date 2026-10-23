@@ -88,6 +88,80 @@ main {
   background: rgba(255, 255, 255, .22);
 }
 
+/* ---------- ប្រវត្តិផ្លាស់ប្តូរសម្ភារៈ ---------- */
+.history {
+  margin-bottom: 14px;
+  background: var(--bg);
+  border: 1.5px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+.history[hidden] { display: none; }
+.history summary {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px;
+  cursor: pointer;
+  list-style: none;
+  font-weight: 600;
+  font-size: .94rem;
+}
+.history summary::-webkit-details-marker { display: none; }
+.history summary::after {
+  content: "›";
+  margin-left: 6px;
+  font-size: 1.3rem;
+  line-height: 1;
+  color: var(--hint);
+  transition: transform .25s var(--ease);
+}
+.history[open] summary::after { transform: rotate(90deg); }
+.h-ico {
+  flex: none;
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  border-radius: 11px;
+  background: color-mix(in srgb, var(--brand) 13%, transparent);
+}
+.h-title { flex: 1; min-width: 0; line-height: 1.4; }
+.h-count {
+  flex: none;
+  min-width: 24px;
+  padding: 0 8px;
+  font-size: .76rem;
+  font-weight: 700;
+  line-height: 22px;
+  text-align: center;
+  color: #fff;
+  border-radius: 99px;
+  background: linear-gradient(135deg, var(--brand), var(--brand-2));
+}
+.history ul { margin: 0; padding: 2px 14px 14px; list-style: none; }
+.history li {
+  display: flex;
+  gap: 12px;
+  padding: 10px 0;
+  border-top: 1px dashed var(--line);
+}
+.h-date {
+  flex: none;
+  align-self: flex-start;
+  padding: 2px 9px;
+  font-size: .74rem;
+  font-weight: 600;
+  color: var(--brand);
+  border-radius: 99px;
+  background: color-mix(in srgb, var(--brand) 11%, transparent);
+}
+.h-body { min-width: 0; }
+.h-body b { display: block; font-weight: 600; font-size: .9rem; line-height: 1.4; }
+.h-body small { display: block; color: var(--hint); font-size: .78rem; }
+.history[open] { animation: reveal .3s var(--ease) both; }
+
 /* ---------- កាតផ្នែកនីមួយៗ ---------- */
 form { counter-reset: step; }
 
