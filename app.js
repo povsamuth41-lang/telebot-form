@@ -27,18 +27,34 @@ const MAX_BYTES = 4000; // Telegram sendData អនុញ្ញាតអតិ�
 const $ = (id) => document.getElementById(id);
 const form = $("form");
 
-function renderOptions(containerId, items, multi = false) {
+// emoji នៅដើមឈ្មោះ ត្រូវបំបែកជាអាយខុន (ឧ. "💻 Computer-Laptop" → 💻 + "Computer-Laptop")
+const ICON_RE = /^(\p{Extended_Pictographic}️?(?:‍\p{Extended_Pictographic}️?)*)\s*(.*)$/u;
+const el = (tag, className, text) => {
+  const node = document.createElement(tag);
+  if (className) node.className = className;
+  if (text !== undefined) node.textContent = text;
+  return node;
+};
+
+// subs = ពាក្យពណ៌នាខ្លីក្រោមឈ្មោះ (មិនចាំបាច់)
+function renderOptions(containerId, items, multi = false, subs = []) {
   const box = $(containerId);
   items.forEach((label, i) => {
-    const wrap = document.createElement("label");
-    wrap.className = "opt";
-    const input = document.createElement("input");
+    const wrap = el("label", "opt");
+    const input = el("input");
     input.type = multi ? "checkbox" : "radio";
     input.name = containerId;
     input.value = String(i);
-    const text = document.createElement("span");
-    text.textContent = label;
-    wrap.append(input, text);
+
+    const m = label.match(ICON_RE);
+    const card = el("span", "card");
+    if (m) card.append(el("i", "ico", m[1]));
+    const txt = el("span", "txt");
+    txt.append(el("span", "t", m ? m[2] : label));
+    if (subs[i]) txt.append(el("small", "s", subs[i]));
+    card.append(txt, el("em", "mark"));
+
+    wrap.append(input, card);
     box.append(wrap);
   });
 }
@@ -122,14 +138,20 @@ function todayKh() {
 $("today").textContent = todayKh();
 
 renderOptions("weather", WEATHERS);
-renderOptions("state", STATES);
+renderOptions("state", STATES, false, ["ថ្ងៃនេះសម្ភារៈទាំងអស់ដំណើរការធម្មតា", "មានសម្ភារៈខូច ឬដំណើរការមិនល្អ"]);
 renderOptions("type", TYPES, true);
-renderOptions("status", STATUSES);
-renderOptions("request", [REQUEST_LABEL], true);
+renderOptions("status", STATUSES, false, ["នៅតែប្រើបាន ប៉ុន្តែមានបញ្ហាតិចតួច", "មិនអាចប្រើប្រាស់បានទេ"]);
+renderOptions("request", [REQUEST_LABEL], true, ["បើកប្រសិនបើត្រូវការសម្ភារៈថ្មីជំនួស"]);
 renderOptions("priority", PRIORITIES);
+
+// ញ័របន្តិចពេលជ្រើស (Telegram ជំនាន់ថ្មីប៉ុណ្ណោះ)
+function tick() {
+  try { if (inTelegram) tg.HapticFeedback.selectionChanged(); } catch (_) { /* មិនគាំទ្រ */ }
+}
 
 // បង្ហាញប្រអប់បញ្ជាក់ ពេលជ្រើស Others
 form.addEventListener("change", (e) => {
+  tick();
   if (e.target.name === "state") {
     const issue = Number(e.target.value) === 1;
     $("issueFields").hidden = !issue;
@@ -160,6 +182,10 @@ form.addEventListener("submit", (e) => {
 if (inTelegram) {
   tg.ready();
   tg.expand();
+  try { // ឱ្យរបារ Telegram ស្របពណ៌ទំព័រ
+    tg.setHeaderColor("secondary_bg_color");
+    tg.setBackgroundColor("secondary_bg_color");
+  } catch (_) { /* ជំនាន់ចាស់ */ }
   // ឈ្មោះអ្នករាយការណ៍ មិនបង្ហាញក្នុង form ទេ ព្រោះ bot យកពីគណនី Telegram ដោយខ្លួនឯង
   tg.MainButton.setText("បញ្ជូនរបាយការណ៍");
   tg.MainButton.onClick(submit);  tg.MainButton.show();
