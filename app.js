@@ -148,8 +148,16 @@ function renderHistory() {
       items = JSON.parse(new TextDecoder().decode(Uint8Array.from(bin, (c) => c.charCodeAt(0))));
     }
   } catch (_) { items = []; }
-  if (!Array.isArray(items) || !items.length) return;
   const list = $("historyList");
+  if (!Array.isArray(items) || !items.length) {
+    const empty = el("li", "h-empty");
+    empty.append(
+      el("b", "", "មិនទាន់មានប្រវត្តិផ្លាស់ប្តូរសម្ភារៈ"),
+      el("small", "", "បើទើបមានការផ្លាស់ប្តូរថ្មី សូមផ្ញើ /report ដើម្បីធ្វើបច្ចុប្បន្នភាព"),
+    );
+    list.append(empty);
+    return;
+  }
   items.slice(0, 8).forEach((it) => {
     const li = el("li");
     li.append(el("span", "h-date", String(it.d || "")));
@@ -160,7 +168,6 @@ function renderHistory() {
     list.append(li);
   });
   $("historyCount").textContent = String(items.length);
-  $("history").hidden = false;
 }
 renderHistory();
 

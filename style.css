@@ -161,6 +161,10 @@ main {
 .h-body b { display: block; font-weight: 600; font-size: .9rem; line-height: 1.4; }
 .h-body small { display: block; color: var(--hint); font-size: .78rem; }
 .history[open] { animation: reveal .3s var(--ease) both; }
+.history .h-empty { display: block; text-align: center; padding: 14px 4px 6px; }
+.history .h-empty b { display: block; font-weight: 600; font-size: .88rem; color: var(--hint); }
+.history .h-empty small { display: block; margin-top: 2px; font-size: .76rem; color: var(--hint); opacity: .85; }
+.history:not(:has(.h-count:not(:empty))) .h-count { display: none; }
 
 /* ---------- កាតផ្នែកនីមួយៗ ---------- */
 form { counter-reset: step; }
