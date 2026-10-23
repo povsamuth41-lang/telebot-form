@@ -399,6 +399,40 @@ textarea { resize: vertical; min-height: 104px; }
 .primary[hidden] { display: none; }
 .note { margin: 14px 8px 0; text-align: center; color: var(--hint); font-size: .8rem; }
 
+/* ---------- Footer: ទំនាក់ទំនងបន្ទាន់ ---------- */
+.footer {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 18px;
+  padding: 14px;
+  background: var(--bg);
+  border: 1.5px dashed color-mix(in srgb, var(--bad) 40%, transparent);
+  border-radius: var(--radius);
+}
+.f-ico {
+  flex: none;
+  width: 42px;
+  height: 42px;
+  display: grid;
+  place-items: center;
+  font-size: 1.25rem;
+  border-radius: 14px;
+  background: color-mix(in srgb, var(--bad) 12%, transparent);
+}
+.f-body { min-width: 0; line-height: 1.45; }
+.f-body strong { display: block; font-size: .84rem; font-weight: 600; }
+.f-phones { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px; margin-top: 2px; }
+.f-phones i { font-style: normal; color: var(--hint); }
+.f-phones a {
+  color: var(--brand);
+  font-weight: 700;
+  font-size: 1rem;
+  text-decoration: none;
+  letter-spacing: .02em;
+}
+.f-phones a:active { opacity: .6; }
+
 /* ---------- ចលនា ---------- */
 @keyframes reveal { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: none; } }
 @keyframes shake {
